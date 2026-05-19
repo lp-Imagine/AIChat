@@ -76,6 +76,12 @@ OPENAI_BASE_URL=https://api.deepseek.com
 OPENAI_MODEL=deepseek-v4-flash
 ```
 
+前端本地开发可新增：
+
+```env
+VITE_API_BASE_URL=http://localhost:3001
+```
+
 ### 3. 启动项目
 
 ```bash
@@ -86,6 +92,46 @@ npm run dev
 
 - 前端：`http://localhost:5173`
 - 后端：`http://localhost:3001`
+
+## 免费部署建议
+
+推荐使用前后端分离部署：
+
+- 前端：`Vercel`
+- 后端：`Render`
+- CI：`GitHub Actions`
+
+### 1. 部署后端到 Render
+
+- 新建 Web Service，仓库选择当前项目
+- `Root Directory` 设为 `backend`
+- `Build Command`：`npm install`
+- `Start Command`：`npm start`
+- 环境变量至少配置：
+  - `OPENAI_API_KEY`
+  - `OPENAI_BASE_URL=https://api.deepseek.com`
+  - `OPENAI_MODEL=deepseek-v4-flash`
+  - `CORS_ORIGIN=https://你的-vercel-域名`
+
+说明：
+
+- 当前项目的用户、会话数据使用本地 JSON 文件存储
+- 在 Render 免费实例上通常可以运行，但实例重建后数据可能丢失
+- 如果要长期稳定使用，后续建议切换数据库
+
+### 2. 部署前端到 Vercel
+
+- 导入当前 GitHub 仓库
+- 构建目录使用默认仓库根目录即可
+- `Build Command`：`npm --prefix frontend install && npm --prefix frontend run build`
+- `Output Directory`：`frontend/dist`
+- 环境变量：
+  - `VITE_API_BASE_URL=https://你的-render-后端域名`
+
+### 3. GitHub Actions
+
+- 仓库已内置 `.github/workflows/ci.yml`
+- 每次 push / pull request 会自动检查前后端构建是否通过
 
 ## 联网能力说明
 

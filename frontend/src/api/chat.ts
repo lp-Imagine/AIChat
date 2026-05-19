@@ -1,6 +1,16 @@
 import axios from 'axios'
 import type { ChatRequest, ChatResponse, ChatMessage, ChatSession, SearchResult, StreamChunk, WeatherInfo } from '../types'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
+const api = axios.create({
+  baseURL: apiBaseUrl,
+  timeout: 60000
+})
+
+function buildApiUrl(path: string) {
+  return `${apiBaseUrl}${path}`
+}
+
 function buildAuthHeaders(token: string) {
   return {
     Authorization: `Bearer ${token}`
@@ -8,14 +18,14 @@ function buildAuthHeaders(token: string) {
 }
 
 export async function sendChatMessage(payload: ChatRequest, token: string) {
-  const { data } = await axios.post<ChatResponse>('/api/chat', payload, {
+  const { data } = await api.post<ChatResponse>('/api/chat', payload, {
     headers: buildAuthHeaders(token)
   })
   return data
 }
 
 export async function fetchSessions(token: string) {
-  const { data } = await axios.get<{ sessions: ChatSession[] }>('/api/chat/sessions', {
+  const { data } = await api.get<{ sessions: ChatSession[] }>('/api/chat/sessions', {
     headers: buildAuthHeaders(token)
   })
 
@@ -23,7 +33,7 @@ export async function fetchSessions(token: string) {
 }
 
 export async function createSession(payload: { title?: string; firstMessage?: string }, token: string) {
-  const { data } = await axios.post<{ session: ChatSession }>('/api/chat/sessions', payload, {
+  const { data } = await api.post<{ session: ChatSession }>('/api/chat/sessions', payload, {
     headers: buildAuthHeaders(token)
   })
 
@@ -31,7 +41,7 @@ export async function createSession(payload: { title?: string; firstMessage?: st
 }
 
 export async function fetchSessionMessages(sessionId: string, token: string) {
-  const { data } = await axios.get<{ session: ChatSession; messages: ChatMessage[] }>(
+  const { data } = await api.get<{ session: ChatSession; messages: ChatMessage[] }>(
     `/api/chat/sessions/${sessionId}/messages`,
     {
       headers: buildAuthHeaders(token)
@@ -42,7 +52,7 @@ export async function fetchSessionMessages(sessionId: string, token: string) {
 }
 
 export async function removeSession(sessionId: string, token: string) {
-  const { data } = await axios.delete<{ success: boolean }>(`/api/chat/sessions/${sessionId}`, {
+  const { data } = await api.delete<{ success: boolean }>(`/api/chat/sessions/${sessionId}`, {
     headers: buildAuthHeaders(token)
   })
 
@@ -50,7 +60,7 @@ export async function removeSession(sessionId: string, token: string) {
 }
 
 export async function clearSessionMessages(sessionId: string, token: string) {
-  const { data } = await axios.delete<{ success: boolean }>(`/api/chat/sessions/${sessionId}/messages`, {
+  const { data } = await api.delete<{ success: boolean }>(`/api/chat/sessions/${sessionId}/messages`, {
     headers: buildAuthHeaders(token)
   })
 
@@ -58,7 +68,7 @@ export async function clearSessionMessages(sessionId: string, token: string) {
 }
 
 export async function regenerateLastReply(sessionId: string, token: string) {
-  const { data } = await axios.post<ChatResponse>(
+  const { data } = await api.post<ChatResponse>(
     '/api/chat/regenerate',
     { sessionId },
     {
@@ -81,7 +91,7 @@ export async function streamRegenerateMessage(
 ) {
   let response: Response
   try {
-    response = await fetch('/api/chat/regenerate/stream', {
+    response = await fetch(buildApiUrl('/api/chat/regenerate/stream'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -174,7 +184,7 @@ export async function streamChatMessage(
 ) {
   let response: Response
   try {
-    response = await fetch('/api/chat/stream', {
+    response = await fetch(buildApiUrl('/api/chat/stream'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

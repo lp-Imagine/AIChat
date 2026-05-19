@@ -19,8 +19,23 @@ import {
 
 const app = express()
 const port = Number(process.env.PORT || 3000)
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((item) => item.trim())
+  .filter(Boolean)
 
-app.use(cors())
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        callback(null, true)
+        return
+      }
+
+      callback(new Error('Not allowed by CORS'))
+    }
+  })
+)
 app.use(express.json())
 
 async function authMiddleware(req, res, next) {
@@ -468,6 +483,6 @@ app.post('/api/chat/stream', authMiddleware, async (req, res) => {
   }
 })
 
-app.listen(port, () => {
-  console.log(`Backend server running at http://localhost:${port}`)
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Backend server running on port ${port}`)
 })
