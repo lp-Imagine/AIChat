@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getToken } from './utils/auth'
-import ChatPage from './views/ChatPage.vue'
-import LoginPage from './views/LoginPage.vue'
-import RegisterPage from './views/RegisterPage.vue'
+
+const ChatPage = () => import('./views/ChatPage.vue')
+const LoginPage = () => import('./views/LoginPage.vue')
+const RegisterPage = () => import('./views/RegisterPage.vue')
 
 const router = createRouter({
   history: createWebHistory(),

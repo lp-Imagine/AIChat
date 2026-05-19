@@ -1,6 +1,23 @@
 import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
+import xml from 'highlight.js/lib/languages/xml'
+import python from 'highlight.js/lib/languages/python'
+import bash from 'highlight.js/lib/languages/bash'
+import yaml from 'highlight.js/lib/languages/yaml'
+import json from 'highlight.js/lib/languages/json'
+import css from 'highlight.js/lib/languages/css'
 import 'highlight.js/styles/atom-one-light.css'
+
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('python', python)
+hljs.registerLanguage('bash', bash)
+hljs.registerLanguage('yaml', yaml)
+hljs.registerLanguage('json', json)
+hljs.registerLanguage('css', css)
 
 const languageAliasMap: Record<string, string> = {
   js: 'javascript',
