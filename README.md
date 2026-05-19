@@ -126,6 +126,7 @@ npm run dev
 - `Build Command`：`npm run build`
 - `Install Command`：`npm install`
 - `Output Directory`：`dist`
+- `frontend/vercel.json` 需要保留 SPA rewrite，避免刷新 `/chat` 等路由时出现 404
 - 环境变量：
   - `VITE_API_BASE_URL=https://你的-render-后端域名`
 
