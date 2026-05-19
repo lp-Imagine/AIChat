@@ -1,0 +1,17 @@
+{
+  "name": "aichat-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "zsh -lc 'source \"$HOME/.nvm/nvm.sh\" && nvm use 23 >/dev/null && concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"'",
+    "dev:frontend": "zsh -lc 'source \"$HOME/.nvm/nvm.sh\" && nvm use 23 >/dev/null && npm --prefix frontend run dev'",
+    "dev:backend": "zsh -lc 'source \"$HOME/.nvm/nvm.sh\" && nvm use 23 >/dev/null && npm --prefix backend run dev'",
+    "build": "zsh -lc 'source \"$HOME/.nvm/nvm.sh\" && nvm use 23 >/dev/null && npm --prefix frontend run build && npm --prefix backend run build'"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=23.0.0"
+  }
+}

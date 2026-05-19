@@ -1,0 +1,16 @@
+[
+  {
+    "id": "9fd994ab-1c33-4469-9992-fefa5a3b4e48",
+    "username": "aaa",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "token": "01b637bdc4aee5ba26f6fa7875c216a6d4c0ddc61f781a52",
+    "createdAt": "2026-05-18T13:56:30.609Z"
+  },
+  {
+    "id": "01fa18f0-43d5-4cfe-be4d-c614a24a90db",
+    "username": "test001",
+    "passwordHash": "4f9f10b304cfe9b2b11fcb1387f694e18f08ea358c7e9f567434d3ad6cbd7fc4",
+    "token": "63eabebb9878e81816d9fc1e3fd094f192b304baeb63c9f4",
+    "createdAt": "2026-05-19T00:48:12.000Z"
+  }
+]
